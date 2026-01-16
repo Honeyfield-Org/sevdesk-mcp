@@ -1,6 +1,6 @@
 {
   "name": "@honeyfield/sevdesk-mcp",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "MCP Server for sevDesk accounting API",
   "type": "module",
   "main": "dist/index.js",
@@ -11,6 +11,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsx src/index.ts",
+    "inspect": "npx @anthropic-ai/mcp-inspector dist/index.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -31,7 +32,8 @@
   },
   "homepage": "https://github.com/Honeyfield-Org/sevdesk-mcp#readme",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
