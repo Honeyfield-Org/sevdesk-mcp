@@ -11,6 +11,7 @@ import { registerVouchersTools } from './tools/vouchers.js';
 import { registerTransactionsTools } from './tools/transactions.js';
 import { registerPartsTools } from './tools/parts.js';
 import { registerBasicsTools } from './tools/basics.js';
+import { registerUsersTools } from './tools/users.js';
 
 // Check for API token
 if (!process.env.SEVDESK_API_TOKEN) {
@@ -35,6 +36,7 @@ registerVouchersTools(server);
 registerTransactionsTools(server);
 registerPartsTools(server);
 registerBasicsTools(server);
+registerUsersTools(server);
 
 // Start server
 async function main() {

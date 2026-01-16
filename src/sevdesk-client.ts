@@ -419,6 +419,16 @@ export class SevDeskClient {
     return this.put<unknown>(`/Part/${partId}`, data);
   }
 
+  // ==================== USERS ====================
+
+  async listUsers(params?: PaginationParams) {
+    return this.get<unknown[]>('/SevUser', params ? { ...params } : undefined);
+  }
+
+  async getUser(userId: string) {
+    return this.getOne<unknown>(`/SevUser/${userId}`);
+  }
+
   // ==================== BASICS ====================
 
   async getSystemVersion() {

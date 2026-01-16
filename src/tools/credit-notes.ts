@@ -84,6 +84,7 @@ export function registerCreditNotesTools(server: McpServer) {
       taxRate: z.number().optional().describe('Default tax rate'),
       taxType: z.string().optional().describe('Tax type (default, eu, noteu, custom)'),
       taxSetId: z.number().optional().describe('Tax set ID'),
+      contactPersonId: z.number().optional().describe('ID des sevDesk-Benutzers als Kontaktperson'),
     },
     async (args) => {
       const client = getSevDeskClient();
@@ -109,6 +110,7 @@ export function registerCreditNotesTools(server: McpServer) {
       if (args.taxRate) creditNote.taxRate = args.taxRate;
       if (args.taxType) creditNote.taxType = args.taxType;
       if (args.taxSetId) creditNote.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
+      if (args.contactPersonId) creditNote.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
 
       const creditNotePosSave = args.positions.map((pos, index) => ({
         objectName: 'CreditNotePos',

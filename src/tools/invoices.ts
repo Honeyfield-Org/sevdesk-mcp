@@ -92,6 +92,7 @@ export function registerInvoicesTools(server: McpServer) {
       taxSetId: z.number().optional().describe('Tax set ID'),
       paymentMethodId: z.number().optional().describe('Payment method ID'),
       smallSettlement: z.boolean().optional().describe('Small business regulation (Kleinunternehmer)'),
+      contactPersonId: z.number().optional().describe('ID des sevDesk-Benutzers als Kontaktperson'),
     },
     async (args) => {
       const client = getSevDeskClient();
@@ -125,6 +126,7 @@ export function registerInvoicesTools(server: McpServer) {
       if (args.taxSetId) invoice.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
       if (args.paymentMethodId) invoice.paymentMethod = { id: args.paymentMethodId, objectName: 'PaymentMethod' };
       if (args.smallSettlement !== undefined) invoice.smallSettlement = args.smallSettlement;
+      if (args.contactPersonId) invoice.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
 
       const invoicePosSave = args.positions.map((pos, index) => ({
         objectName: 'InvoicePos',

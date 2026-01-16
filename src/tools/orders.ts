@@ -91,6 +91,7 @@ export function registerOrdersTools(server: McpServer) {
       taxType: z.string().optional().describe('Tax type (default, eu, noteu, custom)'),
       taxSetId: z.number().optional().describe('Tax set ID'),
       smallSettlement: z.boolean().optional().describe('Small business regulation (Kleinunternehmer)'),
+      contactPersonId: z.number().optional().describe('ID des sevDesk-Benutzers als Kontaktperson'),
     },
     async (args) => {
       const client = getSevDeskClient();
@@ -120,6 +121,7 @@ export function registerOrdersTools(server: McpServer) {
       if (args.taxType) order.taxType = args.taxType;
       if (args.taxSetId) order.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
       if (args.smallSettlement !== undefined) order.smallSettlement = args.smallSettlement;
+      if (args.contactPersonId) order.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
 
       const orderPosSave = args.positions.map((pos, index) => ({
         objectName: 'OrderPos',
