@@ -93,6 +93,7 @@ export function registerInvoicesTools(server: McpServer) {
       paymentMethodId: z.number().optional().describe('Payment method ID'),
       smallSettlement: z.boolean().optional().describe('Small business regulation (Kleinunternehmer)'),
       contactPersonId: z.number().optional().describe('ID des sevDesk-Benutzers als Kontaktperson'),
+      customerInternalNote: z.string().optional().describe('Reference/order number (Referenz/Bestellnummer)'),
     },
     async (args) => {
       const client = getSevDeskClient();
@@ -127,6 +128,7 @@ export function registerInvoicesTools(server: McpServer) {
       if (args.paymentMethodId) invoice.paymentMethod = { id: args.paymentMethodId, objectName: 'PaymentMethod' };
       if (args.smallSettlement !== undefined) invoice.smallSettlement = args.smallSettlement;
       if (args.contactPersonId) invoice.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
+      if (args.customerInternalNote) invoice.customerInternalNote = args.customerInternalNote;
 
       const invoicePosSave = args.positions.map((pos, index) => ({
         objectName: 'InvoicePos',
@@ -163,6 +165,7 @@ export function registerInvoicesTools(server: McpServer) {
       deliveryDate: z.string().optional().describe('Delivery date (YYYY-MM-DD)'),
       deliveryDateUntil: z.string().optional().describe('Delivery end date (YYYY-MM-DD)'),
       status: z.number().optional().describe('Status (100=Draft, 200=Open)'),
+      customerInternalNote: z.string().optional().describe('Reference/order number (Referenz/Bestellnummer)'),
     },
     async ({ invoiceId, ...updateData }) => {
       const client = getSevDeskClient();

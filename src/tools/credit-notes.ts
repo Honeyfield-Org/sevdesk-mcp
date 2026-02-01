@@ -85,6 +85,8 @@ export function registerCreditNotesTools(server: McpServer) {
       taxType: z.string().optional().describe('Tax type (default, eu, noteu, custom)'),
       taxSetId: z.number().optional().describe('Tax set ID'),
       contactPersonId: z.number().optional().describe('ID des sevDesk-Benutzers als Kontaktperson'),
+      deliveryDate: z.string().optional().describe('Delivery date (YYYY-MM-DD)'),
+      deliveryDateUntil: z.string().optional().describe('Delivery date until (YYYY-MM-DD), for delivery periods'),
     },
     async (args) => {
       const client = getSevDeskClient();
@@ -111,6 +113,8 @@ export function registerCreditNotesTools(server: McpServer) {
       if (args.taxType) creditNote.taxType = args.taxType;
       if (args.taxSetId) creditNote.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
       if (args.contactPersonId) creditNote.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
+      if (args.deliveryDate) creditNote.deliveryDate = args.deliveryDate;
+      if (args.deliveryDateUntil) creditNote.deliveryDateUntil = args.deliveryDateUntil;
 
       const creditNotePosSave = args.positions.map((pos, index) => ({
         objectName: 'CreditNotePos',
@@ -143,6 +147,8 @@ export function registerCreditNotesTools(server: McpServer) {
       headText: z.string().optional().describe('Text before positions'),
       footText: z.string().optional().describe('Text after positions'),
       status: z.number().optional().describe('Status (100=Draft, 200=Open)'),
+      deliveryDate: z.string().optional().describe('Delivery date (YYYY-MM-DD)'),
+      deliveryDateUntil: z.string().optional().describe('Delivery date until (YYYY-MM-DD), for delivery periods'),
     },
     async ({ creditNoteId, ...updateData }) => {
       const client = getSevDeskClient();

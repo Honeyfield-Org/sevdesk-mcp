@@ -153,6 +153,8 @@ export interface CreditNote extends SevDeskModelObject {
   contact: SevDeskObject;
   contactPerson: SevDeskObject;
   creditNoteDate: string;
+  deliveryDate?: string;
+  deliveryDateUntil?: string;
   header?: string;
   headText?: string;
   footText?: string;
@@ -563,6 +565,8 @@ export interface CreateCreditNoteInput {
     contact: { id: number; objectName: 'Contact' };
     contactPerson?: { id: number; objectName: 'SevUser' };
     creditNoteDate: string;
+    deliveryDate?: string;
+    deliveryDateUntil?: string;
     header?: string;
     headText?: string;
     footText?: string;
