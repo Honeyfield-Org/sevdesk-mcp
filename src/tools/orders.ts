@@ -109,7 +109,7 @@ export function registerOrdersTools(server: McpServer) {
       if (args.footText) order.footText = args.footText;
       if (args.deliveryDate) order.deliveryDate = args.deliveryDate;
       if (args.deliveryDateUntil) order.deliveryDateUntil = args.deliveryDateUntil;
-      if (args.status) order.status = args.status;
+      if (args.status !== undefined) order.status = args.status;
       if (args.currency) order.currency = args.currency;
       if (args.showNet !== undefined) order.showNet = args.showNet;
       if (args.addressName) order.addressName = args.addressName;
@@ -117,11 +117,11 @@ export function registerOrdersTools(server: McpServer) {
       if (args.addressZip) order.addressZip = args.addressZip;
       if (args.addressCity) order.addressCity = args.addressCity;
       if (args.addressCountryId) order.addressCountry = { id: args.addressCountryId, objectName: 'StaticCountry' };
-      if (args.taxRate) order.taxRate = args.taxRate;
+      if (args.taxRate !== undefined) order.taxRate = args.taxRate;
       if (args.taxType) order.taxType = args.taxType;
       if (args.taxSetId) order.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
       if (args.smallSettlement !== undefined) order.smallSettlement = args.smallSettlement;
-      if (args.contactPersonId) order.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
+      if (args.contactPersonId !== undefined) order.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
 
       const orderPosSave = args.positions.map((pos, index) => ({
         objectName: 'OrderPos',

@@ -110,10 +110,10 @@ export function registerCreditNotesTools(server: McpServer) {
       if (args.addressZip) creditNote.addressZip = args.addressZip;
       if (args.addressCity) creditNote.addressCity = args.addressCity;
       if (args.addressCountryId) creditNote.addressCountry = { id: args.addressCountryId, objectName: 'StaticCountry' };
-      if (args.taxRate) creditNote.taxRate = args.taxRate;
+      if (args.taxRate !== undefined) creditNote.taxRate = args.taxRate;
       if (args.taxType) creditNote.taxType = args.taxType;
       if (args.taxSetId) creditNote.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
-      if (args.contactPersonId) creditNote.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
+      if (args.contactPersonId !== undefined) creditNote.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
       if (args.deliveryDate) creditNote.deliveryDate = args.deliveryDate;
       if (args.deliveryDateUntil) creditNote.deliveryDateUntil = args.deliveryDateUntil;
       if (args.customerInternalNote) creditNote.customerInternalNote = args.customerInternalNote;

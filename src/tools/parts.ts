@@ -74,7 +74,7 @@ export function registerPartsTools(server: McpServer) {
       };
 
       if (args.text) data.text = args.text;
-      if (args.categoryId) data.category = { id: args.categoryId, objectName: 'Category' };
+      if (args.categoryId !== undefined) data.category = { id: args.categoryId, objectName: 'Category' };
       if (args.stock !== undefined) data.stock = args.stock;
       if (args.stockEnabled !== undefined) data.stockEnabled = args.stockEnabled;
       if (args.price !== undefined) data.price = args.price;

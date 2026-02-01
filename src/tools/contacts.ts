@@ -85,7 +85,7 @@ export function registerContactsTools(server: McpServer) {
       if (args.taxNumber) data.taxNumber = args.taxNumber;
       if (args.bankAccount) data.bankAccount = args.bankAccount;
       if (args.bankNumber) data.bankNumber = args.bankNumber;
-      if (args.defaultTimeToPay) data.defaultTimeToPay = args.defaultTimeToPay;
+      if (args.defaultTimeToPay !== undefined) data.defaultTimeToPay = args.defaultTimeToPay;
       if (args.gender) data.gender = args.gender;
       if (args.academicTitle) data.academicTitle = args.academicTitle;
       if (args.titel) data.titel = args.titel;
@@ -211,7 +211,7 @@ export function registerContactsTools(server: McpServer) {
       if (args.name2) data.name2 = args.name2;
       if (args.name3) data.name3 = args.name3;
       if (args.name4) data.name4 = args.name4;
-      if (args.categoryId) data.category = { id: args.categoryId, objectName: 'Category' };
+      if (args.categoryId !== undefined) data.category = { id: args.categoryId, objectName: 'Category' };
 
       const address = await client.createContactAddress(data);
       return {

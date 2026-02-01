@@ -108,9 +108,9 @@ export function registerInvoicesTools(server: McpServer) {
       if (args.header) invoice.header = args.header;
       if (args.headText) invoice.headText = args.headText;
       if (args.footText) invoice.footText = args.footText;
-      if (args.timeToPay) invoice.timeToPay = args.timeToPay;
-      if (args.discount) invoice.discount = args.discount;
-      if (args.discountTime) invoice.discountTime = args.discountTime;
+      if (args.timeToPay !== undefined) invoice.timeToPay = args.timeToPay;
+      if (args.discount !== undefined) invoice.discount = args.discount;
+      if (args.discountTime !== undefined) invoice.discountTime = args.discountTime;
       if (args.deliveryDate) invoice.deliveryDate = args.deliveryDate;
       if (args.deliveryDateUntil) invoice.deliveryDateUntil = args.deliveryDateUntil;
       if (args.status) invoice.status = args.status;
@@ -122,12 +122,12 @@ export function registerInvoicesTools(server: McpServer) {
       if (args.addressZip) invoice.addressZip = args.addressZip;
       if (args.addressCity) invoice.addressCity = args.addressCity;
       if (args.addressCountryId) invoice.addressCountry = { id: args.addressCountryId, objectName: 'StaticCountry' };
-      if (args.taxRate) invoice.taxRate = args.taxRate;
+      if (args.taxRate !== undefined) invoice.taxRate = args.taxRate;
       if (args.taxType) invoice.taxType = args.taxType;
       if (args.taxSetId) invoice.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
-      if (args.paymentMethodId) invoice.paymentMethod = { id: args.paymentMethodId, objectName: 'PaymentMethod' };
+      if (args.paymentMethodId !== undefined) invoice.paymentMethod = { id: args.paymentMethodId, objectName: 'PaymentMethod' };
       if (args.smallSettlement !== undefined) invoice.smallSettlement = args.smallSettlement;
-      if (args.contactPersonId) invoice.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
+      if (args.contactPersonId !== undefined) invoice.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
       if (args.customerInternalNote) invoice.customerInternalNote = args.customerInternalNote;
 
       const invoicePosSave = args.positions.map((pos, index) => ({

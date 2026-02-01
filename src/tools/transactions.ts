@@ -96,7 +96,7 @@ export function registerTransactionsTools(server: McpServer) {
       if (args.payeePayerName) data.payeePayerName = args.payeePayerName;
       if (args.payeePayerAcctNo) data.payeePayerAcctNo = args.payeePayerAcctNo;
       if (args.payeePayerBankCode) data.payeePayerBankCode = args.payeePayerBankCode;
-      if (args.status) data.status = args.status;
+      if (args.status !== undefined) data.status = args.status;
 
       const transaction = await client.createTransaction(data);
       return {

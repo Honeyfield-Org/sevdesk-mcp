@@ -89,13 +89,13 @@ export function registerVouchersTools(server: McpServer) {
         mapAll: true,
       };
 
-      if (args.supplierId) voucher.supplier = { id: args.supplierId, objectName: 'Contact' };
+      if (args.supplierId !== undefined) voucher.supplier = { id: args.supplierId, objectName: 'Contact' };
       if (args.supplierName) voucher.supplierName = args.supplierName;
       if (args.description) voucher.description = args.description;
-      if (args.status) voucher.status = args.status;
+      if (args.status !== undefined) voucher.status = args.status;
       if (args.voucherType) voucher.voucherType = args.voucherType;
       if (args.currency) voucher.currency = args.currency;
-      if (args.taxSetId) voucher.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
+      if (args.taxSetId !== undefined) voucher.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
       if (args.paymentDeadline) voucher.paymentDeadline = args.paymentDeadline;
       if (args.deliveryDate) voucher.deliveryDate = args.deliveryDate;
       if (args.deliveryDateUntil) voucher.deliveryDateUntil = args.deliveryDateUntil;
