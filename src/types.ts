@@ -582,6 +582,7 @@ export interface CreateCreditNoteInput {
     taxSet?: { id: number; objectName: 'TaxSet' };
     currency?: string;
     showNet?: boolean;
+    customerInternalNote?: string;
     mapAll: true;
   };
   creditNotePosSave?: Array<{

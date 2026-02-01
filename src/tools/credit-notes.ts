@@ -87,6 +87,7 @@ export function registerCreditNotesTools(server: McpServer) {
       contactPersonId: z.number().optional().describe('ID des sevDesk-Benutzers als Kontaktperson'),
       deliveryDate: z.string().optional().describe('Delivery date (YYYY-MM-DD)'),
       deliveryDateUntil: z.string().optional().describe('Delivery date until (YYYY-MM-DD), for delivery periods'),
+      customerInternalNote: z.string().optional().describe('Reference/order number (Referenz/Bestellnummer)'),
     },
     async (args) => {
       const client = getSevDeskClient();
@@ -115,6 +116,7 @@ export function registerCreditNotesTools(server: McpServer) {
       if (args.contactPersonId) creditNote.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
       if (args.deliveryDate) creditNote.deliveryDate = args.deliveryDate;
       if (args.deliveryDateUntil) creditNote.deliveryDateUntil = args.deliveryDateUntil;
+      if (args.customerInternalNote) creditNote.customerInternalNote = args.customerInternalNote;
 
       const creditNotePosSave = args.positions.map((pos, index) => ({
         objectName: 'CreditNotePos',
@@ -149,6 +151,7 @@ export function registerCreditNotesTools(server: McpServer) {
       status: z.number().optional().describe('Status (100=Draft, 200=Open)'),
       deliveryDate: z.string().optional().describe('Delivery date (YYYY-MM-DD)'),
       deliveryDateUntil: z.string().optional().describe('Delivery date until (YYYY-MM-DD), for delivery periods'),
+      customerInternalNote: z.string().optional().describe('Reference/order number (Referenz/Bestellnummer)'),
     },
     async ({ creditNoteId, ...updateData }) => {
       const client = getSevDeskClient();
