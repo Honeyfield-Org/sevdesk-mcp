@@ -39,6 +39,15 @@ export class SevDeskClient {
       },
     });
 
+    // Request interceptor for debugging
+    this.client.interceptors.request.use((config) => {
+      console.error(`[sevDesk] ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
+      if (config.data) {
+        console.error(`[sevDesk] Request body: ${JSON.stringify(config.data, null, 2)}`);
+      }
+      return config;
+    });
+
     // Response interceptor for error handling
     this.client.interceptors.response.use(
       (response) => response,
@@ -308,6 +317,10 @@ export class SevDeskClient {
 
   async createOrder(data: Record<string, unknown>) {
     return this.post<unknown>('/Order/Factory/saveOrder', data);
+  }
+
+  async getNextOrderNumber(orderType: string) {
+    return this.getOne<string>('/Order/Factory/getNextOrderNumber', { orderType });
   }
 
   async updateOrder(orderId: string, data: Record<string, unknown>) {

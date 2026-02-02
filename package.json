@@ -1,6 +1,6 @@
 {
   "name": "@honeyfield/sevdesk-mcp",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "MCP Server for sevDesk accounting API",
   "type": "module",
   "main": "dist/index.js",

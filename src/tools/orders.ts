@@ -91,29 +91,34 @@ export function registerOrdersTools(server: McpServer) {
       taxType: z.string().optional().describe('Tax type (default, eu, noteu, custom)'),
       taxText: z.string().optional().describe('Tax description text (e.g. "Umsatzsteuer 20%")'),
       taxSetId: z.number().optional().describe('Tax set ID'),
+      taxRuleId: z.number().optional().describe('Tax rule ID (sevDesk 2.0, default: 1 = Umsatzsteuerpflichtige Umsätze)'),
       smallSettlement: z.boolean().optional().describe('Small business regulation (Kleinunternehmer)'),
       contactPersonId: z.number().optional().describe('ID des sevDesk-Benutzers als Kontaktperson'),
     },
     async (args) => {
       const client = getSevDeskClient();
 
+      // Fetch next order number automatically
+      const orderNumber = await client.getNextOrderNumber(args.orderType);
+
       const order: Record<string, unknown> = {
         objectName: 'Order',
+        orderNumber,
         contact: { id: args.contactId, objectName: 'Contact' },
         orderDate: args.orderDate,
         orderType: args.orderType,
         mapAll: true,
-        // Required fields with sensible defaults
         status: args.status ?? 100,
-        header: args.header ?? '',
+        header: args.header ?? `${args.orderType}-${orderNumber}`,
         currency: args.currency ?? 'EUR',
         taxRate: args.taxRate ?? 0,
         taxType: args.taxType ?? 'default',
         taxText: args.taxText ?? 'Umsatzsteuer',
-        addressCountry: args.addressCountryId
-          ? { id: args.addressCountryId, objectName: 'StaticCountry' }
-          : { id: 1, objectName: 'StaticCountry' },
+        taxRule: { id: args.taxRuleId ?? 1, objectName: 'TaxRule' },
+        version: 0,
       };
+
+      if (args.addressCountryId) order.addressCountry = { id: args.addressCountryId, objectName: 'StaticCountry' };
 
       if (args.headText) order.headText = args.headText;
       if (args.footText) order.footText = args.footText;
