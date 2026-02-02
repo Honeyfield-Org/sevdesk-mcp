@@ -43,13 +43,12 @@ export class SevDeskClient {
     this.client.interceptors.response.use(
       (response) => response,
       (error: AxiosError<SevDeskError>) => {
-        if (error.response?.data?.error) {
-          const sevDeskError = error.response.data.error;
-          throw new Error(`sevDesk API Error (${sevDeskError.code}): ${sevDeskError.message}`);
-        }
-        // Fallback: include response body for debugging
         const status = error.response?.status;
         const body = JSON.stringify(error.response?.data);
+        if (error.response?.data?.error) {
+          const sevDeskError = error.response.data.error;
+          throw new Error(`sevDesk API Error (${sevDeskError.code}): ${sevDeskError.message} | Full response: ${body}`);
+        }
         throw new Error(`sevDesk API Error (${status}): ${body ?? error.message}`);
       }
     );

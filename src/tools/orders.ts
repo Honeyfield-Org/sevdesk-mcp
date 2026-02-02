@@ -110,7 +110,6 @@ export function registerOrdersTools(server: McpServer) {
         taxRate: args.taxRate ?? 0,
         taxType: args.taxType ?? 'default',
         taxText: args.taxText ?? 'Umsatzsteuer',
-        version: 0,
         addressCountry: args.addressCountryId
           ? { id: args.addressCountryId, objectName: 'StaticCountry' }
           : { id: 1, objectName: 'StaticCountry' },
