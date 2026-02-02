@@ -47,7 +47,10 @@ export class SevDeskClient {
           const sevDeskError = error.response.data.error;
           throw new Error(`sevDesk API Error (${sevDeskError.code}): ${sevDeskError.message}`);
         }
-        throw error;
+        // Fallback: include response body for debugging
+        const status = error.response?.status;
+        const body = JSON.stringify(error.response?.data);
+        throw new Error(`sevDesk API Error (${status}): ${body ?? error.message}`);
       }
     );
   }

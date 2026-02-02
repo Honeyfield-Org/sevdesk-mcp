@@ -89,6 +89,7 @@ export function registerOrdersTools(server: McpServer) {
       addressCountryId: z.number().optional().describe('Custom address country ID'),
       taxRate: z.number().optional().describe('Default tax rate'),
       taxType: z.string().optional().describe('Tax type (default, eu, noteu, custom)'),
+      taxText: z.string().optional().describe('Tax description text (e.g. "Umsatzsteuer 20%")'),
       taxSetId: z.number().optional().describe('Tax set ID'),
       smallSettlement: z.boolean().optional().describe('Small business regulation (Kleinunternehmer)'),
       contactPersonId: z.number().optional().describe('ID des sevDesk-Benutzers als Kontaktperson'),
@@ -102,23 +103,28 @@ export function registerOrdersTools(server: McpServer) {
         orderDate: args.orderDate,
         orderType: args.orderType,
         mapAll: true,
+        // Required fields with sensible defaults
+        status: args.status ?? 100,
+        header: args.header ?? '',
+        currency: args.currency ?? 'EUR',
+        taxRate: args.taxRate ?? 0,
+        taxType: args.taxType ?? 'default',
+        taxText: args.taxText ?? 'Umsatzsteuer',
+        version: 0,
+        addressCountry: args.addressCountryId
+          ? { id: args.addressCountryId, objectName: 'StaticCountry' }
+          : { id: 1, objectName: 'StaticCountry' },
       };
 
-      if (args.header) order.header = args.header;
       if (args.headText) order.headText = args.headText;
       if (args.footText) order.footText = args.footText;
       if (args.deliveryDate) order.deliveryDate = args.deliveryDate;
       if (args.deliveryDateUntil) order.deliveryDateUntil = args.deliveryDateUntil;
-      if (args.status !== undefined) order.status = args.status;
-      if (args.currency) order.currency = args.currency;
       if (args.showNet !== undefined) order.showNet = args.showNet;
       if (args.addressName) order.addressName = args.addressName;
       if (args.addressStreet) order.addressStreet = args.addressStreet;
       if (args.addressZip) order.addressZip = args.addressZip;
       if (args.addressCity) order.addressCity = args.addressCity;
-      if (args.addressCountryId) order.addressCountry = { id: args.addressCountryId, objectName: 'StaticCountry' };
-      if (args.taxRate !== undefined) order.taxRate = args.taxRate;
-      if (args.taxType) order.taxType = args.taxType;
       if (args.taxSetId) order.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
       if (args.smallSettlement !== undefined) order.smallSettlement = args.smallSettlement;
       if (args.contactPersonId !== undefined) {
