@@ -121,7 +121,14 @@ export function registerOrdersTools(server: McpServer) {
       if (args.taxType) order.taxType = args.taxType;
       if (args.taxSetId) order.taxSet = { id: args.taxSetId, objectName: 'TaxSet' };
       if (args.smallSettlement !== undefined) order.smallSettlement = args.smallSettlement;
-      if (args.contactPersonId !== undefined) order.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
+      if (args.contactPersonId !== undefined) {
+        order.contactPerson = { id: args.contactPersonId, objectName: 'SevUser' };
+      } else {
+        const users = await client.listUsers({ limit: 1 });
+        if (users && users.length > 0) {
+          order.contactPerson = { id: (users[0] as any).id, objectName: 'SevUser' };
+        }
+      }
 
       const orderPosSave = args.positions.map((pos, index) => ({
         objectName: 'OrderPos',
