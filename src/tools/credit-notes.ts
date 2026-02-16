@@ -72,12 +72,12 @@ export function registerCreditNotesTools(server: McpServer) {
   // Create Credit Note
   server.tool(
     'create_credit_note',
-    'Create a new credit note with positions.',
+    'Create a new credit note with positions. Note: bookingCategory can ONLY be set during creation and cannot be changed later via update.',
     {
       contactId: z.number().describe('The ID of the contact/customer'),
       creditNoteDate: z.string().describe('Credit note date (YYYY-MM-DD)'),
       positions: z.array(CreditNotePositionSchema).describe('Credit note line items'),
-      bookingCategory: BookingCategoryEnum.optional().describe('Booking category: UNDERACHIEVEMENT, ROYALTY_ASSIGNED (Honorar zugeordnet), ROYALTY_UNASSIGNED (Honorar nicht zugeordnet), PROVISION'),
+      bookingCategory: BookingCategoryEnum.optional().describe('Booking category (can only be set at creation, not changeable later). UNDERACHIEVEMENT = Mindererlös, ROYALTY_ASSIGNED = Honorar zugeordnet, ROYALTY_UNASSIGNED = Honorar nicht zugeordnet, PROVISION = Provision'),
       refSrcInvoice: z.number().optional().describe('Source invoice ID (required when bookingCategory is UNDERACHIEVEMENT)'),
       refSrcVoucher: z.number().optional().describe('Source voucher ID (required when bookingCategory is UNDERACHIEVEMENT)'),
       header: z.string().optional().describe('Credit note header/subject'),
@@ -158,7 +158,6 @@ export function registerCreditNotesTools(server: McpServer) {
     'Update an existing credit note. Only works for draft credit notes (status 100).',
     {
       creditNoteId: z.string().describe('The ID of the credit note to update'),
-      bookingCategory: BookingCategoryEnum.optional().describe('Booking category: UNDERACHIEVEMENT, ROYALTY_ASSIGNED (Honorar zugeordnet), ROYALTY_UNASSIGNED (Honorar nicht zugeordnet), PROVISION'),
       header: z.string().optional().describe('Credit note header/subject'),
       headText: z.string().optional().describe('Text before positions'),
       footText: z.string().optional().describe('Text after positions'),
