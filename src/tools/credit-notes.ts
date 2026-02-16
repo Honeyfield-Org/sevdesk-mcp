@@ -2,6 +2,13 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import { getSevDeskClient } from '../sevdesk-client.js';
 
+const BookingCategoryEnum = z.enum([
+  'UNDERACHIEVEMENT',
+  'ROYALTY_ASSIGNED',
+  'ROYALTY_UNASSIGNED',
+  'PROVISION',
+]).describe('Booking category: UNDERACHIEVEMENT (requires refSrcInvoice or refSrcVoucher), ROYALTY_ASSIGNED (assigned royalty/Honorar), ROYALTY_UNASSIGNED (unassigned royalty), PROVISION');
+
 const CreditNotePositionSchema = z.object({
   name: z.string().describe('Name/description of the position'),
   quantity: z.number().describe('Quantity'),
@@ -70,6 +77,9 @@ export function registerCreditNotesTools(server: McpServer) {
       contactId: z.number().describe('The ID of the contact/customer'),
       creditNoteDate: z.string().describe('Credit note date (YYYY-MM-DD)'),
       positions: z.array(CreditNotePositionSchema).describe('Credit note line items'),
+      bookingCategory: BookingCategoryEnum.optional().describe('Booking category: UNDERACHIEVEMENT, ROYALTY_ASSIGNED (Honorar zugeordnet), ROYALTY_UNASSIGNED (Honorar nicht zugeordnet), PROVISION'),
+      refSrcInvoice: z.number().optional().describe('Source invoice ID (required when bookingCategory is UNDERACHIEVEMENT)'),
+      refSrcVoucher: z.number().optional().describe('Source voucher ID (required when bookingCategory is UNDERACHIEVEMENT)'),
       header: z.string().optional().describe('Credit note header/subject'),
       headText: z.string().optional().describe('Text before positions'),
       footText: z.string().optional().describe('Text after positions'),
@@ -99,6 +109,9 @@ export function registerCreditNotesTools(server: McpServer) {
         mapAll: true,
       };
 
+      if (args.bookingCategory) creditNote.bookingCategory = args.bookingCategory;
+      if (args.refSrcInvoice) creditNote.refSrcInvoice = { id: args.refSrcInvoice, objectName: 'Invoice' };
+      if (args.refSrcVoucher) creditNote.refSrcVoucher = { id: args.refSrcVoucher, objectName: 'Voucher' };
       if (args.header) creditNote.header = args.header;
       if (args.headText) creditNote.headText = args.headText;
       if (args.footText) creditNote.footText = args.footText;
@@ -145,6 +158,7 @@ export function registerCreditNotesTools(server: McpServer) {
     'Update an existing credit note. Only works for draft credit notes (status 100).',
     {
       creditNoteId: z.string().describe('The ID of the credit note to update'),
+      bookingCategory: BookingCategoryEnum.optional().describe('Booking category: UNDERACHIEVEMENT, ROYALTY_ASSIGNED (Honorar zugeordnet), ROYALTY_UNASSIGNED (Honorar nicht zugeordnet), PROVISION'),
       header: z.string().optional().describe('Credit note header/subject'),
       headText: z.string().optional().describe('Text before positions'),
       footText: z.string().optional().describe('Text after positions'),
